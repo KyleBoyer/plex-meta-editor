@@ -1,0 +1,17 @@
+services:
+  plex-meta-editor:
+    build: .
+    ports:
+      - "3232:3232"
+    volumes:
+      # Mount macOS Plex data directory to the standard Linux Plex path.
+      # The app auto-discovers the DB and Preferences.xml from this location.
+      - ~/Library/Application Support/Plex Media Server:/var/lib/plexmediaserver/Library/Application Support/Plex Media Server
+      # Persist backups outside the container
+      - plex-meta-editor-backups:/var/lib/plexmediaserver/Library/Application Support/Plex Media Server/Plug-in Support/Databases/plex-meta-editor-backups
+    environment:
+      # Point at the Plex server running on the host machine
+      - PLEX_SERVER_URL=http://host.docker.internal:32400
+
+volumes:
+  plex-meta-editor-backups:
