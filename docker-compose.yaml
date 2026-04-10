@@ -12,6 +12,10 @@ services:
     environment:
       # Point at the Plex server running on the host machine
       - PLEX_SERVER_URL=http://host.docker.internal:32400
+      # macOS stores the Plex token in a plist, which Linux can't read.
+      # Set PLEX_TOKEN in a .env file next to this compose file.
+      # Extract it with: plutil -extract PlexOnlineToken raw ~/Library/Preferences/com.plexapp.plexmediaserver.plist
+      - PLEX_TOKEN=${PLEX_TOKEN}
 
 volumes:
   plex-meta-editor-backups:
